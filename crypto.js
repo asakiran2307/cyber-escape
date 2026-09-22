@@ -89,36 +89,36 @@ const CryptoEngine = (function () {
   }
 
   /**
-   * Complete Solution Hashes for all 16 Station Cases (4 stations x 4 cases)
+   * Complete Solution Hashes for all 16 Station Cases (4 stations x 4 cases x 5 questions)
    */
   const STATION_SOLUTIONS = {
-    // Station 1: The Spoofed Origin
+    // Station 1: The Spoofed Origin (Phishing, Header Forensics, Executables)
     1: {
-      A: { q1: hashInput("C"), q2: hashInput("B"), q3: hashInput("C") },
-      B: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("B") },
-      C: { q1: hashInput("A"), q2: hashInput("A"), q3: hashInput("B") },
-      D: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("A") }
+      A: { q1: hashInput("C"), q2: hashInput("B"), q3: hashInput("C"), q4: hashInput("A"), q5: hashInput("B") },
+      B: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("B"), q4: hashInput("C"), q5: hashInput("D") },
+      C: { q1: hashInput("A"), q2: hashInput("A"), q3: hashInput("B"), q4: hashInput("C"), q5: hashInput("B") },
+      D: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("A"), q4: hashInput("C"), q5: hashInput("B") }
     },
-    // Station 2: The Digital Shadow
+    // Station 2: The Digital Shadow (Network Traffic, Beacons, Lateral Movement)
     2: {
-      A: { q1: hashInput("B"), q2: hashInput("B"), q3: hashInput("C") },
-      B: { q1: hashInput("B"), q2: hashInput("A") },
-      C: { q1: hashInput("B"), q2: hashInput("A") },
-      D: { q1: hashInput("B"), q2: hashInput("A") }
+      A: { q1: hashInput("B"), q2: hashInput("B"), q3: hashInput("C"), q4: hashInput("A"), q5: hashInput("D") },
+      B: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("C"), q4: hashInput("B"), q5: hashInput("A") },
+      C: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("C"), q4: hashInput("D"), q5: hashInput("B") },
+      D: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("C"), q4: hashInput("B"), q5: hashInput("A") }
     },
-    // Station 3: The Domain Mirage
+    // Station 3: The Domain Mirage (Typosquatting, Homographs, OAuth Consent)
     3: {
-      A: { q1: hashInput("B"), q2: hashInput("C"), q3: hashInput("C") },
-      B: { q1: hashInput("A"), q2: hashInput("B"), q3: hashInput("A") },
-      C: { q1: hashInput("A"), q2: hashInput("A"), q3: hashInput("A") },
-      D: { q1: hashInput("C"), q2: hashInput("A"), q3: hashInput("A") }
+      A: { q1: hashInput("B"), q2: hashInput("C"), q3: hashInput("C"), q4: hashInput("A"), q5: hashInput("D") },
+      B: { q1: hashInput("A"), q2: hashInput("B"), q3: hashInput("A"), q4: hashInput("C"), q5: hashInput("B") },
+      C: { q1: hashInput("A"), q2: hashInput("A"), q3: hashInput("A"), q4: hashInput("C"), q5: hashInput("D") },
+      D: { q1: hashInput("C"), q2: hashInput("A"), q3: hashInput("A"), q4: hashInput("B"), q5: hashInput("C") }
     },
-    // Station 4: The 10-Minute Blackout
+    // Station 4: The 10-Minute Blackout (Incident Reconstruction & Grand Finale PIN)
     4: {
-      A: { q1: hashInput("C"), q2: hashInput("A"), q3: hashInput("C"), q4: hashInput("B") }, // Exit PIN: 25
-      B: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("C"), q4: hashInput("B") }, // Exit PIN: 34
-      C: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("B"), q4: hashInput("B") }, // Exit PIN: 49
-      D: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("B"), q4: hashInput("B") }  // Exit PIN: 61
+      A: { q1: hashInput("C"), q2: hashInput("A"), q3: hashInput("C"), q4: hashInput("B"), q5: hashInput("B") }, // Exit PIN: 25
+      B: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("C"), q4: hashInput("B"), q5: hashInput("B") }, // Exit PIN: 34
+      C: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("B"), q4: hashInput("B"), q5: hashInput("B") }, // Exit PIN: 49
+      D: { q1: hashInput("B"), q2: hashInput("A"), q3: hashInput("B"), q4: hashInput("B"), q5: hashInput("B") }  // Exit PIN: 61
     }
   };
 
