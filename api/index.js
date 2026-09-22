@@ -54,9 +54,18 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 500, { error: "Database connection failed", details: dbErr.message });
   }
 
-  const rawPath = (req.url && req.url.startsWith("/api")) ? req.url : (req.headers["x-forwarded-uri"] || req.headers["x-matched-path"] || req.url);
+  const rawPath = req.url || req.headers["x-forwarded-uri"] || req.headers["x-matched-path"] || "/";
   const url = new URL(rawPath, `http://${req.headers.host || "localhost"}`);
-  let pathname = url.pathname.replace(/\/+$/, "").replace(/\.js$/, "");
+  let pathname = req.endpoint || url.pathname.replace(/\/+$/, "").replace(/\.js$/, "");
+
+  if (pathname === "/api/index" || pathname === "/api") {
+    const orig = req.headers["x-forwarded-uri"] || req.headers["x-matched-path"] || req.headers["x-invoke-path"];
+    if (orig && orig !== "/api/index.js" && orig !== "/api/index") {
+      const origUrl = new URL(orig, `http://${req.headers.host || "localhost"}`);
+      pathname = origUrl.pathname.replace(/\/+$/, "").replace(/\.js$/, "");
+    }
+  }
+
   const method = req.method.toUpperCase();
 
   try {
