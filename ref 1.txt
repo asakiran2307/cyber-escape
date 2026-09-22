@@ -1,0 +1,446 @@
+Main problems in the current version
+Station 2 is too easy — the password is directly visible from the clues.
+Station 3 is too obvious — .edu immediately gives away the answer.
+Station 4 is only a memory quiz, rather than a final investigation.
+The same fixed passcodes mean teams can simply share answers.
+The “real email” approach teaches that a correct domain = safe, which isn't always true.
+A real person's name should not be used for the password-guessing challenge.
+The flow is Read → MCQ → Passcode, rather than an actual investigation.
+
+I would upgrade it to:
+
+OBSERVE → QUESTION → DOUBT → VERIFY → CONNECT → DECODE → ESCAPE
+
+🔥 Upgraded concept
+CAMPUS CYBER ESCAPE: BLACKOUT PROTOCOL
+SOLO CYBER INVESTIGATION — BEGINNER → MEDIUM
+Format	Participants	Time	Stations
+Physical + QR Investigation	1 student	25 min	4
+Difficulty	Beginner → Medium	No heavy coding	Smartphone required
+
+Each participant receives a different case file at every station.
+
+Station structure
+Station	Investigation	What makes it tricky
+01	📧 The Email That Should Not Exist	Correct-looking sender but dangerous request
+02	🕵️ The Digital Shadow	Connect multiple public clues
+03	🌐 The Domain Mirage	Find the actual domain in deceptive URLs
+04	🚨 The 10-Minute Blackout	Reconstruct the incident and solve the final meta-puzzle
+🕵️ STATION 01 — THE EMAIL THAT SHOULD NOT EXIST
+
+Instead of asking:
+
+Which email is genuine?
+
+Give them three pieces of evidence.
+
+Email A
+
+From: library@university.edu
+Subject: Your library transaction
+
+Your book Network Security Basics was returned successfully.
+Transaction ID: LIB-4481.
+
+Email B
+
+From: library-support@university-help.example
+Subject: URGENT — Account Suspension
+
+Your library account will be permanently deleted in 15 minutes.
+Click here immediately to prevent suspension.
+
+Email C
+
+From: security@university.edu
+Subject: Password Verification Required
+
+Reply to this email with your current password and OTP to verify your identity.
+
+Now ask:
+
+Question 1
+
+Which message contains the most dangerous request, even though the sender appears to use the university domain?
+
+A. A
+B. B
+C. C
+
+Answer: C
+
+That's much better because students learn:
+
+A correct-looking domain does not automatically make a request safe.
+
+Question 2
+
+Which two clues should immediately increase suspicion?
+
+Urgency
+Password request
+Transaction number
+Normal notification
+
+Answer: Urgency + Password request.
+
+Final extraction
+
+Give each correct answer a number:
+
+C = 3
+Urgency = 7
+Password = 4
+
+The station generates:
+
+374
+
+They don't receive a giant obvious passcode like SAFE-PASS-101.
+
+They enter:
+
+374
+
+to unlock Station 2.
+
+🕵️ STATION 02 — THE DIGITAL SHADOW
+
+Do not use a real person's name or ask students to guess an actual person's password.
+
+Create a fictional character:
+
+CASE FILE: NOVA-27
+
+Students discover:
+
+🎮 Gamer
+📸 Photography Club
+🐕 Dog named Bruno
+🎓 Joined campus in 2024
+👕 Favourite jersey number: 27
+☕ Favourite café: Byte Café
+
+Then give them four possible password patterns:
+
+A. Bruno2024
+B. Nova!27
+C. Campus#8Q
+D. X7!pL9@z
+
+But here's the trick:
+
+Question
+
+Which password demonstrates the highest risk of being predictable from publicly available information?
+
+Answer:
+
+A — Bruno2024
+
+Then give a second clue:
+
+The investigator discovers the person frequently uses the number 27 in public posts.
+
+Now ask:
+
+Which additional information would make the password pattern even more predictable?
+
+A. Bruno
+B. 27
+C. 2024
+D. All three
+
+Answer:
+
+D
+
+Extraction
+
+Instead of revealing the next password directly:
+
+BRUNO = 5 letters
+2024 = 4 digits
+27 = 2 digits
+
+The system asks:
+
+Take the number of letters in the pet name + the number of digits in the joining year + the jersey number.
+
+Result:
+
+5 + 4 + 27 = 36
+
+Station 2 code:
+
+36
+
+Much more satisfying.
+
+🌐 STATION 03 — THE DOMAIN MIRAGE
+
+This is where you can make it properly tricky.
+
+Don't just give:
+
+Which one has .edu?
+
+Give URLs that look extremely similar.
+
+CASE FILE
+A
+https://portal.college.edu/exam
+
+B
+https://college.edu.login-check.example/exam
+
+C
+https://college-exam.example/college.edu/login
+
+D
+https://college.edu@secure-login.example/exam
+
+Ask:
+
+Question 1
+
+What is the actual domain in URL B?
+
+Students must identify:
+
+login-check.example
+
+—not college.edu.
+
+Question 2
+
+What does the @ in URL D indicate?
+
+The browser interprets the portion before @ as user-information, while the actual host is:
+
+secure-login.example
+
+Question 3
+
+Which URL actually belongs to the fictional college?
+
+A
+
+Now make the extraction interesting.
+
+A = 14
+B = 27
+C = 39
+D = 52
+
+If the player identifies:
+
+B + D
+
+then:
+
+27 + 52 = 79
+
+Station 3 code:
+
+79
+🚨 STATION 04 — THE 10-MINUTE BLACKOUT
+
+This should not be a normal quiz.
+
+Give them an incident timeline.
+
+INCIDENT LOG
+08:51  Suspicious email received
+08:53  Link opened
+08:54  Login page displayed
+08:55  Credentials entered
+08:56  Page redirected
+08:57  Unknown login detected
+08:58  Account locked
+09:00  Incident reported
+
+Then provide five evidence cards:
+
+E1 — URGENCY
+E2 — UNKNOWN DOMAIN
+E3 — CREDENTIAL REQUEST
+E4 — LOGIN REDIRECT
+E5 — UNKNOWN LOGIN
+Question 1
+
+At which point could the incident have been prevented earliest?
+
+Answer: Before/opening the suspicious link at 08:53.
+
+Question 2
+
+Which evidence connects the attack to credential theft?
+
+E3 + E4
+
+Question 3
+
+What common principle connects all three previous stations?
+
+Possible answers:
+
+A. Use stronger computers
+B. Verify before trusting
+C. Memorize more passwords
+D. Click quickly
+
+Answer: B
+
+But now comes the actual escape.
+
+🔐 FINAL META PUZZLE
+
+The player has collected:
+
+STATION 1 → 374
+STATION 2 → 36
+STATION 3 → 79
+
+Station 4 gives:
+
+VERIFY
+
+The system tells them:
+
+Your investigation contains three numerical evidence fragments.
+
+Take:
+
+First digit of Station 1
++
+Station 2
++
+Last digit of Station 3
+
+Therefore:
+
+3 + 36 + 9
+
+Final calculation:
+
+48
+
+But instead of simply saying:
+
+FINAL PIN = 48
+
+make the website respond:
+
+╔══════════════════════════════════════╗
+║       BLACKOUT PROTOCOL              ║
+║                                      ║
+║  EVIDENCE ................. VERIFIED ║
+║  THREAT ................... ISOLATED ║
+║  INCIDENT ................. CLOSED   ║
+║                                      ║
+║  FINAL EXIT CODE: 48                 ║
+║                                      ║
+║       SYSTEM DEFENDED                ║
+╚══════════════════════════════════════╝
+
+Then the participant tells the Game Master the final code.
+
+🎯 The biggest improvement: 4 different versions
+
+Don't create only one Station 1, one Station 2, etc.
+
+Create:
+
+Station 1
+Set	Scenario
+A	Library phishing
+B	Scholarship scam
+C	Fake examination notice
+D	QR-code phishing
+Station 2
+Set	Scenario
+A	Pet + year clues
+B	Sports + nickname clues
+C	Club + birthday clues
+D	Gaming + username clues
+Station 3
+Set	Scenario
+A	Lookalike domains
+B	@ URL trick
+C	Subdomain deception
+D	Shortened URL investigation
+Station 4
+Set	Scenario
+A	Email → credential theft
+B	Fake login → account compromise
+C	QR phishing → redirect
+D	Social engineering → account takeover
+
+That creates:
+
+4 × 4 = 16 different case combinations.
+
+A participant might receive:
+
+Station 1 → Set C
+Station 2 → Set A
+Station 3 → Set D
+Station 4 → Set B
+
+while another receives:
+
+Station 1 → Set A
+Station 2 → Set D
+Station 3 → Set B
+Station 4 → Set C
+
+So standing next to another participant doesn't help much.
+
+🧠 Make the website feel like a real investigation
+
+Instead of a Google Form, I'd make the participant screen look like a Cyber Operations Center.
+
+┌──────────────────────────────────────────────────────────────┐
+│  CYBER OPERATIONS CENTER                ⏱ 18:42              │
+├──────────────┬─────────────────────────────┬───────────────┤
+│              │                             │               │
+│  MISSION     │       EVIDENCE FILE        │   STATUS      │
+│              │                             │               │
+│  ✓ STATION 1 │   CASE: BLACKOUT-27        │  THREAT:      │
+│              │                             │  UNKNOWN      │
+│  ● STATION 2 │   ┌─────────────────────┐   │               │
+│              │   │ Suspicious Message  │   │  EVIDENCE    │
+│  🔒 STATION 3│   │                     │   │  03 / 08     │
+│              │   │ [Evidence content]  │   │               │
+│  🔒 STATION 4│   └─────────────────────┘   │  PENALTY:     │
+│              │                             │  +30 SEC      │
+│              │       [ SUBMIT ]            │               │
+└──────────────┴─────────────────────────────┴───────────────┘
+
+Correct answer:
+
+✓ EVIDENCE VERIFIED
+CLUE UNLOCKED
+STATION 02 AVAILABLE
+
+Wrong answer:
+
+⚠ EVIDENCE CONFLICT
+
+Your conclusion is inconsistent
+with the available evidence.
+
++30 SECONDS
+
+That will feel far more like an escape/investigation game than a quiz.
+
+One important change
+
+Since you've now described this as an actual event, I would make it solo rather than 2–4 students if you want the randomized QR system and competitive timing to work properly.
+
+The final structure becomes:
+
+1 participant → 4 physical stations → 4 randomized case files → 25 minutes → server-validated answers → penalties → final investigation → top 3 finishers.
+
+That is the version I'd build around.

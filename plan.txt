@@ -1,0 +1,112 @@
+Version:1.0 StartHTML:0000000156 EndHTML:0000167018 StartFragment:0000000469 EndFragment:0000167010
+CAMPUS CYBER ESCAPE: BEGINNER TO MEDIUM EDITION 
+Fun, Engaging & Intuitive 4-Station Room Challenge (No Complex Math or Heavy Coding) 
+EVENT FORMAT 
+TEAM SIZE 
+TIME LIMIT 
+TARGET LEVEL 
+4 Stations / A4 QR Codes 
+2 - 4 Students 
+20 - 25 Minutes 
+Beginner & Fun Friendly 
+
+ 
+1. Why This Version Works Better 
+Instead of complex cipher math or low-level console scripting, this beginner-to-medium edition relies on observation, logical common sense, and visual pattern recognition. Any student with a smartphone can participate and have fun without feeling stuck or intimidated. 
+💡 The Quick Setup Rule
+Each station gives a clear clue on what to look for. If a team picks the right answer, the screen gives them the passcode to type into the next station. 
+
+ 
+Station 
+Topic 
+Easy Challenge Summary 
+Passcode Unlocked 
+Station 1 
+Spot the Fake Email 
+Pick which of 3 emails is authentic (1 real, 2 obvious phishing). 
+SAFE-PASS-101 
+Station 2 
+Password Hygiene 
+Crack a weak password using public social media clues. 
+SUNNY2024 
+Station 3 
+Suspicious URL Check 
+Spot the fake campus login link from 4 choices. 
+LOCK-OUT-404 
+Station 4 
+Emergency Disarm Quiz 
+Answer 3 quick recap questions to get the final exit code. 
+EXIT PIN: 5599 
+
+2. Station Puzzles & Ready-to-Use Questions 
+Station 1: The Phishing Detector (Social Engineering) 
+Where to place: Front door or North Wall (A4 Poster: Station 1) 
+What opens when scanned: A screen showing 3 email screenshots or text blocks: 
+• Email A: 'URGENT: You won a 5,000 gift voucher! Click claim-gift-fast.biz right now!' (Red flag: Suspicious domain & urgency). 
+• Email B: 'Campus Library: Your book issue receipt #4481 is attached. View portal at library.college.edu.' (Real email: Authentic official college domain). 
+• Email C: 'IT Support: Your password expires in 10 minutes. Send your current password here to keep account.' (Red flag: IT never asks for your password). 
+Question to Players: 'Which email is genuine and safe to open? (A, B, or C)' 
+Answer: Email B. 
+Screen Output: When they select Email B, the page says: 'Correct! Never click unknown links. Your Passcode is: SAFE-PASS-101 (Go to Station 2)'. 
+Station 2: The Social Media Password Trap (OSINT / Human Factor) 
+Where to place: East Corner / Table (A4 Poster: Station 2) 
+Gatekeeper: Enter passcode 'SAFE-PASS-101' to view the clues. 
+What opens when scanned: A simulated Instagram profile of a campus administrator named 'Rahul': 
+• Bio: 'Proud dog dad to my golden retriever Sunny! Joined college in 2024.' 
+• Photo Post: Picture of a golden retriever with caption: 'Sunny is 2 years old today!' 
+Question to Players: 'Rahul used a common weak password pattern: Pet Name + College Joining Year. What is his password?' 
+Answer: Sunny2024 (or sunny2024). 
+Screen Output: Entering Sunny2024 reveals: 'Account unlocked! Weak passwords based on pets are easy to guess. Your Passcode is: LOCK-OUT-404 (Go to Station 3)'. 
+Station 3: Fake Link Inspection (Lookalike URLs) 
+Where to place: South Corner / Desk (A4 Poster: Station 3) 
+Gatekeeper: Enter passcode 'LOCK-OUT-404' to unlock. 
+What opens when scanned: A screen showing 4 links trying to imitate the college exam portal: 
+1. www.portal-college-exam.free-host.ru
+2. www.exam-college.org.fake-login.com
+3. www.college.edu/exam-portal
+4. www.col1ege-exam.com (look closely at the '1' instead of 'l') 
+Question to Players: 'Which link is the REAL official portal?' 
+Answer: Link 3 (www.college.edu/exam-portal). 
+Screen Output: Selecting Link 3 reveals: 'Spot on! Real institutions use their official .edu or official registered domain. Your Passcode is: SHIELD-77 (Go to Station 4)'. 
+Station 4: Master Emergency Disarm (Quick Recap) 
+Where to place: Central screen or Game Master table (A4 Poster: Station 4) 
+Gatekeeper: Enter passcode 'SHIELD-77' to access the final disarm console. 
+What opens when scanned: A 3-question quick quiz: 
+1. What was the pet name used in Station 2? -> Sunny
+2. Which domain suffix did the real college site use in Station 3? -> .edu
+3. What should you do if an email asks for your password? -> Report/Delete it 
+Final Resolution: Submitting all 3 correct answers flashes a green screen: 
+Result: CONGRATULATIONS! SYSTEM DEFENDED SUCCESSFULLY!
+ROOM EXIT PIN: 5599 
+Teams call out '5599' to the Game Master to stop the clock! 
+3. Super Easy Implementation (Google Forms) 
+You can create this entire event in 15 minutes using Google Forms with no technical hosting needed: 
+Step 1: Create a Google Form named 'Cyber Escape Room'. 
+Step 2: Create 4 Sections in the Form (one section for each station). 
+Step 3: In Section 2, 3, and 4, add a Short Answer question asking for 'Enter Previous Station Key'. Turn on Response Validation -> Regular expression -> Matches -> enter the key. 
+Step 4: Generate 4 QR codes using any free QR generator (e.g., qr-code-generator.com or Canva) pasting your Form link. 
+Step 5: Print the QR codes on 4 plain A4 sheets with labels: 'Station 1: Email Check', 'Station 2: Social Media', 'Station 3: Link Audit', 'Station 4: Final Disarm'. 
+4. Facilitator Cheat Sheet 
+Station 
+Theme 
+Correct Player Answer 
+Gives Passcode 
+Station 1 
+Phishing Check 
+Email B (Library) 
+SAFE-PASS-101 
+Station 2 
+Weak Password 
+Sunny2024 
+LOCK-OUT-404 
+Station 3 
+Link Verification 
+Link 3 (.edu) 
+SHIELD-77 
+Station 4 
+Final Recap 
+Sunny / .edu / Report 
+FINAL PIN: 5599 
+
+ 
+

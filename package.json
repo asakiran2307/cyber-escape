@@ -1,0 +1,21 @@
+{
+  "name": "campus-cyber-escape-blackout",
+  "version": "2.0.0",
+  "description": "Campus Cyber Escape: Operation Blackout Protocol with Neon PostgreSQL & Vercel Serverless Architecture",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "cybersecurity",
+    "escape-room",
+    "soc-simulation",
+    "incident-response"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.13.3"
+  }
+}
