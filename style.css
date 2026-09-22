@@ -717,7 +717,11 @@ body {
 }
 
 .mcq-radio-hidden {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
 }
 
 .sudden-death-warning {

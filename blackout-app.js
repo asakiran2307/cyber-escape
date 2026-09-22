@@ -1158,7 +1158,7 @@ const AppEngine = (function () {
         q.options.forEach(opt => {
           html += `
             <label class="mcq-option-card" data-val="${escapeHtml(opt.value)}">
-              <input type="radio" name="${q.id}" value="${escapeHtml(opt.value)}" class="mcq-radio-hidden" required />
+              <input type="radio" name="${q.id}" value="${escapeHtml(opt.value)}" class="mcq-radio-hidden" />
               <span class="mcq-letter-badge">${escapeHtml(opt.value)}</span>
               <span class="mcq-option-text">${escapeHtml(opt.text)}</span>
             </label>
@@ -1218,7 +1218,17 @@ const AppEngine = (function () {
       const elapsedSeconds = Math.max(1, Math.round((now - stationStart) / 1000));
       const elapsedFormatted = formatTime(elapsedSeconds);
 
-      // Verify each question with CryptoEngine
+      // 1. Verify that the agent has chosen an answer for all questions
+      for (let q of questions) {
+        const val = formData.get(q.id);
+        if (!val) {
+          playErrorBuzz();
+          alert(`⚠️ INCOMPLETE FORENSIC RECORD:\nPlease select an answer for "${q.label}" before submitting verification.`);
+          return;
+        }
+      }
+
+      // 2. Verify each question with CryptoEngine
       for (let q of questions) {
         const userVal = formData.get(q.id);
         const isValid = window.CryptoEngine.verifyStationMCQ(stationNum, assignedLetter, q.id, userVal);
