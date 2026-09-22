@@ -54,7 +54,7 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 500, { error: "Database connection failed", details: dbErr.message });
   }
 
-  const rawPath = req.headers["x-matched-path"] || req.headers["x-forwarded-uri"] || req.url;
+  const rawPath = (req.url && req.url.startsWith("/api")) ? req.url : (req.headers["x-forwarded-uri"] || req.headers["x-matched-path"] || req.url);
   const url = new URL(rawPath, `http://${req.headers.host || "localhost"}`);
   let pathname = url.pathname.replace(/\/+$/, "").replace(/\.js$/, "");
   const method = req.method.toUpperCase();
@@ -139,6 +139,23 @@ module.exports = async function handler(req, res) {
         submissions,
         attendance
       });
+    }
+
+    // -------------------------------------------------------------
+    // GET /api/students: Retrieve Single Student or All Students
+    // -------------------------------------------------------------
+    if (pathname === "/api/students" && method === "GET") {
+      const prn = (url.searchParams.get("prn") || "").trim().toUpperCase();
+      if (prn) {
+        const studentRes = await pool.query("SELECT * FROM students WHERE UPPER(prn) = $1 LIMIT 1", [prn]);
+        if (!studentRes.rows[0]) {
+          return sendJson(res, 404, { error: "Student not found", prn });
+        }
+        return sendJson(res, 200, { success: true, student: studentRes.rows[0] });
+      } else {
+        const allRes = await pool.query("SELECT * FROM students ORDER BY last_active_at DESC NULLS LAST, created_at DESC");
+        return sendJson(res, 200, { success: true, students: allRes.rows });
+      }
     }
 
     // -------------------------------------------------------------
