@@ -54,8 +54,9 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 500, { error: "Database connection failed", details: dbErr.message });
   }
 
-  const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
-  const pathname = url.pathname.replace(/\/+$/, "");
+  const rawPath = req.headers["x-matched-path"] || req.headers["x-forwarded-uri"] || req.url;
+  const url = new URL(rawPath, `http://${req.headers.host || "localhost"}`);
+  let pathname = url.pathname.replace(/\/+$/, "").replace(/\.js$/, "");
   const method = req.method.toUpperCase();
 
   try {
