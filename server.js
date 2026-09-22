@@ -1,6 +1,6 @@
 /**
  * BLACKOUT PROTOCOL: Universal Node.js & Vercel Server Handler
- * Serves static assets and delegates /api/* to the Neon DB serverless router.
+ * Serves in-memory pre-cached static assets and delegates /api/* to the Neon DB serverless router.
  */
 
 const http = require("http");
@@ -8,6 +8,38 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const apiHandler = require("./api/index");
+
+// Explicit static asset map: Enables @vercel/nft to statically trace and bundle every asset
+const STATIC_ASSETS = {
+  "/index.html": {
+    data: fs.readFileSync(path.join(__dirname, "index.html")),
+    type: "text/html; charset=utf-8"
+  },
+  "/style.css": {
+    data: fs.readFileSync(path.join(__dirname, "style.css")),
+    type: "text/css; charset=utf-8"
+  },
+  "/blackout-app.js": {
+    data: fs.readFileSync(path.join(__dirname, "blackout-app.js")),
+    type: "application/javascript; charset=utf-8"
+  },
+  "/admin.js": {
+    data: fs.readFileSync(path.join(__dirname, "admin.js")),
+    type: "application/javascript; charset=utf-8"
+  },
+  "/cases.js": {
+    data: fs.readFileSync(path.join(__dirname, "cases.js")),
+    type: "application/javascript; charset=utf-8"
+  },
+  "/crypto.js": {
+    data: fs.readFileSync(path.join(__dirname, "crypto.js")),
+    type: "application/javascript; charset=utf-8"
+  },
+  "/qr-poster.js": {
+    data: fs.readFileSync(path.join(__dirname, "qr-poster.js")),
+    type: "application/javascript; charset=utf-8"
+  }
+};
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -44,12 +76,24 @@ async function requestHandler(req, res) {
     return apiHandler(req, res);
   }
 
-  // 2. Static file resolution
-  let safePath = path.normalize(decodeURIComponent(pathname)).replace(/^(\.\.[\/\\])+/, "");
-  if (safePath === "/" || safePath === "\\" || safePath === "") {
-    safePath = "/index.html";
+  // Normalize root path
+  if (pathname === "/" || pathname === "" || pathname === "\\") {
+    pathname = "/index.html";
   }
 
+  // 2. Direct in-memory lookup for pre-bundled static assets
+  if (STATIC_ASSETS[pathname]) {
+    const asset = STATIC_ASSETS[pathname];
+    res.writeHead(200, {
+      "Content-Type": asset.type,
+      "Content-Length": asset.data.length,
+      "Cache-Control": "public, max-age=0, must-revalidate"
+    });
+    return res.end(asset.data);
+  }
+
+  // 3. Fallback filesystem check for any additional assets (images, fonts, etc.)
+  let safePath = path.normalize(decodeURIComponent(pathname)).replace(/^(\.\.[\/\\])+/, "").replace(/^[\\\/]+/, "");
   const filePath = path.join(__dirname, safePath);
 
   try {
@@ -65,15 +109,20 @@ async function requestHandler(req, res) {
       return fs.createReadStream(filePath).pipe(res);
     }
 
-    // Fallback: If not found, serve index.html for SPA/root navigation
-    const indexPath = path.join(__dirname, "index.html");
-    if (fs.existsSync(indexPath)) {
-      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-      return fs.createReadStream(indexPath).pipe(res);
+    // 4. SPA HTML fallback ONLY for non-asset routes (no extension or .html)
+    const ext = path.extname(pathname);
+    if (!ext || ext === ".html") {
+      const htmlAsset = STATIC_ASSETS["/index.html"];
+      res.writeHead(200, {
+        "Content-Type": "text/html; charset=utf-8",
+        "Content-Length": htmlAsset.data.length
+      });
+      return res.end(htmlAsset.data);
     }
 
+    // 5. Strict 404 for missing CSS/JS/images (never serve HTML for stylesheet/script requests!)
     res.writeHead(404, { "Content-Type": "text/plain" });
-    res.end("404 Not Found");
+    res.end("404 Not Found: " + pathname);
   } catch (err) {
     res.writeHead(500, { "Content-Type": "text/plain" });
     res.end("Internal Server Error: " + err.message);
