@@ -958,13 +958,16 @@ const AppEngine = (function () {
         </div>
     `;
     urls.forEach((url, idx) => {
+      // The question bank stores station URL evidence under "url".
+      // Some legacy records use "fullUrl"; support both without changing the case data.
+      const displayUrl = url.fullUrl || url.url || "";
       html += `
         <div class="url-inspect-card">
           <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.8rem;">
             <span style="color:var(--neon-cyan);font-weight:700;">URL #${idx + 1}</span>
             <span style="color:var(--text-muted)">CAPTURED AT GATEWAY</span>
           </div>
-          <div class="url-raw-string">${escapeHtml(url.fullUrl)}</div>
+          <div class="url-raw-string">${escapeHtml(displayUrl)}</div>
           ${url.breakdown ? `
             <div class="url-chips-row">
               ${url.breakdown.userinfo ? `<div class="url-chip"><span class="chip-lbl">Userinfo (@): </span><span class="chip-val">${escapeHtml(url.breakdown.userinfo)}</span></div>` : ""}
