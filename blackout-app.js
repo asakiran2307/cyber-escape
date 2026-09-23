@@ -419,8 +419,23 @@ const AppEngine = (function () {
     if (!data || !data.success) return;
 
     if (data.roundState) {
+      // Do not re-render the active question form when the backend returns
+      // the same round state. The sync runs every few seconds; dispatching
+      // the update every time would recreate the form and clear unsaved
+      // radio-button selections.
+      let roundChanged = true;
+      try {
+        const currentRoundState = getRoundState();
+        roundChanged = JSON.stringify(currentRoundState) !== JSON.stringify(data.roundState);
+      } catch (e) {
+        roundChanged = true;
+      }
+
       localStorage.setItem(GLOBAL_ROUND_KEY, JSON.stringify(data.roundState));
-      window.dispatchEvent(new CustomEvent("blackout_round_update", { detail: data.roundState }));
+
+      if (roundChanged) {
+        window.dispatchEvent(new CustomEvent("blackout_round_update", { detail: data.roundState }));
+      }
     }
     if (Array.isArray(data.roster)) {
       localStorage.setItem(ROSTER_KEY, JSON.stringify(data.roster));
