@@ -50,11 +50,13 @@
     <!-- Quick Actions -->
     <div class="hud-actions">
       <button id="btnToggleAudio" class="btn-cyber-sm">🔊 AUDIO: ON</button>
-      <button id="btnOpenAdmin" onclick="if(window.AdminPortal) window.AdminPortal.open();" class="btn-cyber-sm" style="border-color:var(--neon-cyan);background:rgba(0,240,255,0.15)">
-        🛡️ ADMIN LOGIN
-      </button>
     </div>
   </header>
+
+  <!-- Small, unobtrusive Game Master access button -->
+  <button id="btnOpenAdmin" class="admin-home-trigger" type="button" aria-label="Open Admin Login">
+    🛡️ ADMIN
+  </button>
 
   <!-- Main Game Container -->
   <main class="main-wrapper">
