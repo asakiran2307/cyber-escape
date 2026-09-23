@@ -981,6 +981,33 @@ body {
   gap: 1.5rem;
 }
 
+
+/* Admin Command Center scrolling fix */
+.admin-modal-backdrop {
+  overflow: hidden;
+}
+
+.admin-window {
+  height: 92vh;
+  max-height: 92vh;
+  min-height: 0;
+}
+
+.admin-window-body {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+
+.admin-nav-tabs {
+  min-height: 0;
+  flex: 0 0 auto;
+}
+
 /* Admin Tabs Navigation */
 .admin-nav-tabs {
   display: flex;
