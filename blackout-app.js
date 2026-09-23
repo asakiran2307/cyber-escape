@@ -5,7 +5,7 @@
  */
 
 const AppEngine = (function () {
-  const STORAGE_KEY = "BLACKOUT_SESSION_V2";
+  const STORAGE_KEY = "BLACKOUT_SESSION_V3";
   let audioCtx = null;
   let isMuted = false;
   let timerInterval = null;
