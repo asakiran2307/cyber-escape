@@ -1,7 +1,7 @@
 /**
  * BLACKOUT PROTOCOL: Core Game Controller & Audio Synthesizer
  * Manages player registration, sudden-death validation, state persistence,
- * Web Audio sound effects, and anti-cheat window focus monitoring.
+ * Web Audio sound effects and event telemetry.
  */
 
 const AppEngine = (function () {
@@ -510,7 +510,7 @@ const AppEngine = (function () {
       { name: "Diya Patel", prn: "2024010222", codeProfile: "CASE-BBBB", station: 3, isEscaped: false, time1: 38, time2: 62, infractions: 1 },
       { name: "Aarav Sharma", prn: "2024010111", codeProfile: "CASE-AAAA", station: 4, isEscaped: true, time1: 42, time2: 55, time3: 68, time4: 85, infractions: 0 },
       { name: "Rohan Verma", prn: "2024010333", codeProfile: "CASE-CCCC", station: 2, isEscaped: false, time1: 52, infractions: 0 },
-      { name: "Vikram Malhotra", prn: "2024010555", codeProfile: "CASE-ABCD", station: 2, isEscaped: false, isEliminated: true, reason: "ANTI-CHEAT: Tab switch limit exceeded (2/2)", time1: 65, infractions: 2 },
+      { name: "Vikram Malhotra", prn: "2024010555", codeProfile: "CASE-ABCD", station: 2, isEscaped: false, isEliminated: true, reason: "Incorrect submission at Q2", time1: 65, infractions: 0 },
       { name: "Kunal Ghosh", prn: "2024010777", codeProfile: "CASE-BADC", station: 3, isEscaped: false, time1: 71, time2: 80, infractions: 0 },
       { name: "Sneha Kulkarni", prn: "2024010888", codeProfile: "CASE-CDAB", station: 1, isEscaped: false, time1: 89, infractions: 0 },
       { name: "Ananya Iyer", prn: "2024010444", codeProfile: "CASE-DDDD", station: 1, isEscaped: false, isEliminated: true, reason: "Incorrect submission at Q2: BioCloud Scope", time1: 45, infractions: 0 }
@@ -762,149 +762,6 @@ const AppEngine = (function () {
     const modal = document.getElementById("lockoutModal");
     if (modal) modal.style.display = "none";
     renderActiveStation();
-  }
-
-  let lastInfractionTime = 0;
-
-  // Active Anti-Cheat Security Protocol
-  function triggerAntiCheatInfraction(sourceName) {
-    const session = getSession();
-    if (!session || session.isEliminated || session.isEscaped) return;
-
-    // Do not penalize if Admin modal is active on this browser
-    const adminModal = document.getElementById("adminModal");
-    if (adminModal && adminModal.style.display !== "none") return;
-
-    // Do not penalize if student is on round-completion standby screen awaiting logout
-    if (document.getElementById("btnLogoutAfterRound")) return;
-
-    // Do not penalize if warning modal or lockout modal is already open
-    const warnModal = document.getElementById("antiCheatWarnModal");
-    if (warnModal && warnModal.style.display !== "none") return;
-    const lockModal = document.getElementById("lockoutModal");
-    if (lockModal && lockModal.style.display !== "none") return;
-
-    // Debounce to prevent multiple fires within 2 seconds
-    const now = Date.now();
-    if (now - lastInfractionTime < 2000) return;
-    lastInfractionTime = now;
-
-    session.tabInfractions = (session.tabInfractions || 0) + 1;
-    // Deduct 60s clock penalty
-    session.remainingSeconds = Math.max(0, session.remainingSeconds - 60);
-    session.penaltySeconds = (session.penaltySeconds || 0) + 60;
-    saveSession(session);
-    updateHUD(session);
-
-    // Record violation in Submissions Feed
-    recordSubmission({
-      id: "infraction_" + Date.now(),
-      timestamp: Date.now(),
-      timeFormatted: new Date().toLocaleTimeString(),
-      studentName: session.name,
-      prn: session.prn,
-      codeProfile: session.codeProfile,
-      stationNum: session.currentStation,
-      caseLetter: (session.assignedSets && session.assignedSets[session.currentStation]) || "A",
-      elapsedSeconds: 0,
-      elapsedFormatted: "PENALTY",
-      isCorrect: false,
-      status: `SECURITY INFRACTION #${session.tabInfractions}`,
-      failedQuestion: `SECURITY BREACH: ${sourceName} (-60s Penalty)`
-    });
-
-    if (session.tabInfractions >= 2) {
-      playLockdownSiren();
-      triggerElimination(`ANTI-CHEAT TERMINATION: Window unfocus / tab switch limit reached (${session.tabInfractions}/2). You have been disqualified for integrity violation.`, session.currentStation);
-    } else {
-      playErrorBuzz();
-      renderSecurityWarningModal(session, sourceName);
-    }
-  }
-
-  function renderSecurityWarningModal(session, sourceName) {
-    let warnModal = document.getElementById("antiCheatWarnModal");
-    if (!warnModal) {
-      warnModal = document.createElement("div");
-      warnModal.id = "antiCheatWarnModal";
-      warnModal.className = "lockout-modal-backdrop";
-      document.body.appendChild(warnModal);
-    }
-    warnModal.style.display = "flex";
-    warnModal.innerHTML = `
-      <div class="lockout-box" style="border-color:var(--neon-amber);box-shadow:0 0 50px rgba(255,184,0,0.5);">
-        <div style="font-size:3.5rem;color:var(--neon-amber);">&#9888;</div>
-        <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:900;color:var(--neon-amber);letter-spacing:1px;">
-          SECURITY VIOLATION DETECTED
-        </div>
-        <div style="font-family:var(--font-mono);font-size:0.9rem;color:#ffe6aa;line-height:1.6;">
-          <strong>ACTION DETECTED:</strong> ${escapeHtml(sourceName)}<br/>
-          SOC monitors detected loss of active terminal focus.
-        </div>
-        <div class="lockout-instruction" style="border-color:var(--neon-amber);color:#fff;">
-          <div style="color:var(--neon-amber);font-weight:800;font-size:1rem;margin-bottom:0.4rem;">
-            INFRACTION 1 OF 2 &bull; PENALTY APPLIED: -60 SECONDS
-          </div>
-          You must keep this investigative terminal in active focus at all times.<br/>
-          Switching tabs, navigating to search engines, or opening other apps is strictly forbidden.<br/><br/>
-          <strong style="color:var(--neon-red);">NEXT TAB SWITCH WILL RESULT IN IMMEDIATE TERMINAL LOCKDOWN (PERMANENT ELIMINATION).</strong>
-        </div>
-        <button id="btnAcknowledgeWarn" class="btn-submit-cyber" style="background:var(--neon-amber);color:#000;border-color:var(--neon-amber);font-weight:900;margin-top:0.5rem;padding:0.8rem 1.5rem;">
-          🛡️ I ACKNOWLEDGE &bull; RETURN TO TERMINAL
-        </button>
-      </div>
-    `;
-
-    document.getElementById("btnAcknowledgeWarn").addEventListener("click", () => {
-      initAudio();
-      playKeyClick();
-      warnModal.style.display = "none";
-    });
-  }
-
-  // Anti-Cheat: Screen loss, blur, shortcuts & context menu monitors
-  function setupAntiCheatWatchers() {
-    // 1. Tab visibility switch monitor
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        triggerAntiCheatInfraction("Tab Switched / Backgrounded");
-      }
-    });
-
-    // 2. Window blur (focus lost)
-    window.addEventListener("blur", () => {
-      triggerAntiCheatInfraction("Window Focus Lost / App Switch");
-    });
-
-    // 3. Right-Click Context Menu prevention
-    document.addEventListener("contextmenu", e => {
-      e.preventDefault();
-      initAudio();
-      playTone(300, 0.15, "square", 0.1);
-      showToast("⚠️ ANTI-CHEAT: Right-click context menu is locked.", "error");
-    });
-
-    // 4. Developer Tools / Inspect Shortcuts prevention
-    document.addEventListener("keydown", e => {
-      if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "i" || e.key === "J" || e.key === "j" || e.key === "C" || e.key === "c")) ||
-        (e.ctrlKey && (e.key === "u" || e.key === "U"))
-      ) {
-        e.preventDefault();
-        initAudio();
-        playErrorBuzz();
-        showToast("⚠️ ANTI-CHEAT: Source inspection tools are disabled.", "error");
-      }
-    });
-
-    // 5. Evidence text copying prevention
-    document.addEventListener("copy", e => {
-      const session = getSession();
-      if (session && !session.isEliminated && !session.isEscaped) {
-        showToast("⚠️ ANTI-CHEAT: Evidence clipboard copying is prohibited.", "error");
-      }
-    });
   }
 
   // Dynamic Station Renderer
@@ -1490,7 +1347,7 @@ const AppEngine = (function () {
             <label class="form-label">COLLEGE PRN NUMBER / ROLL ID</label>
             <input type="text" id="prnInput" class="form-input" placeholder="e.g. 2024010529" required />
             <div style="font-size:0.75rem;color:var(--neon-cyan);margin-top:0.3rem;">
-              🔒 <strong>ANTI-CHEAT AUTO-ASSIGNMENT:</strong> Your unique pathway across all 16 station cases is mathematically determined from your PRN. No manual selection permitted.
+              <strong>CASE AUTO-ASSIGNMENT:</strong> Your unique pathway across all 16 station cases is mathematically determined from your PRN. No manual selection permitted.
             </div>
           </div>
 
@@ -1515,7 +1372,7 @@ const AppEngine = (function () {
 
       if (existing && existing.isEliminated) {
         playErrorBuzz();
-        alert(`ACCESS DENIED: Agent ${prn} is ELIMINATED.\nReason: ${existing.eliminatedReason || "Security infraction"}.\n\nReport to the Game Master desk for manual override.`);
+        alert(`ACCESS DENIED: Agent ${prn} is ELIMINATED.\nReason: ${existing.eliminatedReason || "Previous elimination"}.\n\nReport to the Game Master desk for manual override.`);
         return;
       }
 
@@ -1688,7 +1545,6 @@ const AppEngine = (function () {
 
   // Bootstrap Game
   function init() {
-    setupAntiCheatWatchers();
     // Pull fresh state from Neon PostgreSQL
     syncFromBackend();
 
