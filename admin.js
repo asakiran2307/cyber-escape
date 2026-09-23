@@ -131,7 +131,15 @@ const AdminPortal = (function () {
         }
       }
       if (modal && modal.style.display !== "none" && isAuthenticated) {
+        // Keep the active admin page and its scroll position stable while
+        // the live Neon refresh runs in the background.
+        const content = document.getElementById("adminTabContent");
+        const scrollTop = content ? content.scrollTop : 0;
         renderAdminDashboard(modal);
+        requestAnimationFrame(() => {
+          const nextContent = document.getElementById("adminTabContent");
+          if (nextContent) nextContent.scrollTop = scrollTop;
+        });
       }
     } catch (err) {
       console.error("Admin data refresh failed:", err);
