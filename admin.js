@@ -87,6 +87,9 @@ const AdminPortal = (function () {
       renderAdminLogin(modal);
     } else {
       renderAdminDashboard(modal);
+      // Pull the complete Neon snapshot immediately so the dashboard
+      // never opens with stale/empty local data.
+      refreshAdminSnapshot(modal);
       startAdminLivePoll(modal);
     }
   }
@@ -104,18 +107,35 @@ const AdminPortal = (function () {
     if (adminPollTimer) clearInterval(adminPollTimer);
     adminPollTimer = setInterval(async () => {
       if (modal.style.display !== "none" && isAuthenticated) {
-        if (window.AppEngine && window.AppEngine.syncFromBackend) {
-          await window.AppEngine.syncFromBackend();
-        }
-        // Re-render only if modal is open and active
-        if (modal.style.display !== "none") {
-          renderAdminDashboard(modal);
-        }
+        await refreshAdminSnapshot(modal);
       } else {
         clearInterval(adminPollTimer);
         adminPollTimer = null;
       }
     }, 2500);
+  }
+
+  async function refreshAdminSnapshot(modal) {
+    try {
+      if (window.AppEngine && window.AppEngine.syncFromBackend) {
+        await window.AppEngine.syncFromBackend();
+      } else {
+        const response = await fetch("/api/state", { cache: "no-store" });
+        if (!response.ok) throw new Error("State request failed");
+        const data = await response.json();
+        if (data && data.success) {
+          if (Array.isArray(data.roster)) localStorage.setItem("BLACKOUT_STUDENTS_ROSTER", JSON.stringify(data.roster));
+          if (Array.isArray(data.submissions)) localStorage.setItem("BLACKOUT_EVENT_SUBMISSIONS", JSON.stringify(data.submissions));
+          if (Array.isArray(data.attendance)) localStorage.setItem("BLACKOUT_ATTENDANCE_LOG", JSON.stringify(data.attendance));
+          if (data.roundState) localStorage.setItem("BLACKOUT_GLOBAL_ROUND_STATE", JSON.stringify(data.roundState));
+        }
+      }
+      if (modal && modal.style.display !== "none" && isAuthenticated) {
+        renderAdminDashboard(modal);
+      }
+    } catch (err) {
+      console.error("Admin data refresh failed:", err);
+    }
   }
 
   function renderAdminLogin(modal) {
@@ -165,6 +185,7 @@ const AdminPortal = (function () {
       if (window.CryptoEngine.verifyAdmin(input)) {
         isAuthenticated = true;
         renderAdminDashboard(modal);
+        refreshAdminSnapshot(modal);
       } else {
         document.getElementById("adminAuthMsg").innerText = "ACCESS DENIED: Invalid Master Key.";
       }
