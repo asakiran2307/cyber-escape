@@ -682,7 +682,8 @@ body {
   transform: translateX(3px);
 }
 
-.mcq-option-card.selected {
+.mcq-option-card.selected,
+.mcq-option-card:has(.mcq-radio-hidden:checked) {
   border-color: var(--neon-cyan);
   background: rgba(0, 240, 255, 0.12);
   box-shadow: 0 0 12px var(--neon-cyan-glow);
