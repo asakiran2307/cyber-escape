@@ -1041,16 +1041,21 @@ const AppEngine = (function () {
     if (!form) return;
 
     form.addEventListener("change", e => {
-      if (e.target.type === "radio") {
-        initAudio();
-        playKeyClick();
-        const parentGrid = e.target.closest(".mcq-options-grid");
-        if (parentGrid) {
-          parentGrid.querySelectorAll(".mcq-option-card").forEach(c => c.classList.remove("selected"));
-          const parentCard = e.target.closest(".mcq-option-card");
-          if (parentCard) parentCard.classList.add("selected");
-        }
-      }
+      if (e.target.type !== "radio") return;
+
+      initAudio();
+      playKeyClick();
+
+      // Keep exactly one visual selection per question.
+      // The native radio input controls the actual value; this also
+      // explicitly clears stale .selected classes when changing answers.
+      const parentGrid = e.target.closest(".mcq-options-grid");
+      if (!parentGrid) return;
+
+      parentGrid.querySelectorAll(".mcq-option-card").forEach(card => {
+        const radio = card.querySelector('input[type="radio"]');
+        card.classList.toggle("selected", !!radio && radio.checked);
+      });
     });
 
     form.addEventListener("submit", e => {
