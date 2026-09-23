@@ -545,7 +545,7 @@ module.exports = async function handler(req, res) {
         { name: "Diya Patel", prn: "2024010222", profile: "CASE-BBBB", station: 3, escaped: false, time1: 38, time2: 62, infractions: 1 },
         { name: "Aarav Sharma", prn: "2024010111", profile: "CASE-AAAA", station: 4, escaped: true, time1: 42, time2: 55, time3: 68, time4: 85, infractions: 0 },
         { name: "Rohan Verma", prn: "2024010333", profile: "CASE-CCCC", station: 2, escaped: false, time1: 52, infractions: 0 },
-        { name: "Vikram Malhotra", prn: "2024010555", profile: "CASE-ABCD", station: 2, escaped: false, eliminated: true, reason: "ANTI-CHEAT: Tab switch limit exceeded (2/2)", time1: 65, infractions: 2 },
+        { name: "Vikram Malhotra", prn: "2024010555", profile: "CASE-ABCD", station: 2, escaped: false, eliminated: true, reason: "Incorrect submission at Q2", time1: 65, infractions: 0 },
         { name: "Kunal Ghosh", prn: "2024010777", profile: "CASE-BADC", station: 3, escaped: false, time1: 71, time2: 80, infractions: 0 },
         { name: "Sneha Kulkarni", prn: "2024010888", profile: "CASE-CDAB", station: 1, escaped: false, time1: 89, infractions: 0 },
         { name: "Ananya Iyer", prn: "2024010444", profile: "CASE-DDDD", station: 1, escaped: false, eliminated: true, reason: "Incorrect submission at Q2: BioCloud Scope", time1: 45, infractions: 0 }
